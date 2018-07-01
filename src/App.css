@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css?family=Jua|Open+Sans:400,700');
+html,body{
+	margin: 0;
+	padding: 0;
+	font-family: 'Open Sans', sans-serif;
+	overflow-y:hidden;
+}
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+.festivTitle{
+	font-family: 'Jua', sans-serif;
+	color: #ffffff;
+	margin: 0;
+}
+.festivDesc{
+	margin-top: 0;
+	font-size: 13px;
+	color: #ffffff;
+}
+.SearchWrapper{
+	background-color: #55C3FF;
+	width: 25%;
+	padding: 5%;
+	height: 100vh;
+	display: inline-block;
+	float: left;
+}
+.SearchWrapper select:nth-child(1){
+	height: 28px;
+    background-color: #55C3FF;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+}
+.credits{
+	position: absolute;
+    bottom: 0;
+    font-size: 13px;
+    color: #fff;
+}
+.tracks{
+	width: 40%;
+	display: inline-block;
+	height: 100vh;
+	overflow-y: auto;
+}
+.track_container{
+	padding: 5%;
+}
+.track_item{
+	position: relative;
+	margin: 1%;
+	border-radius: 5px;
+	transition: .3s ease;
+}
+.track_trans-enter{
+	opacity: 0;
+}
+.track_trans-enter.track_trans-enter-active{
+	opacity: 1;
+	transition: opacity .4s ease-in;
+}
+.track_trans-leave{
+	opacity: 1;
+}
+.track_trans-leave.track_trans-leave-active{
+	opacity: 0;
+	transition: opacity .3s ease-in;
+}
+
+.track_item img{
+	display: inline-block;
+	width: 50px;
+}
+.track_info{
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	padding: 2%;
+}
+.track_info p{
+	margin: 0;
+	font-size: 13px;
+}
+.track_info p:nth-child(1){
+	font-weight: 400;
+}
+.track_info p:nth-child(2){
+	font-weight: 700
+}
+.add_to_tab{
+	display: inline-block;
+	width: 25%;
+	float: right;
+}
+.add_to_tab a{
+	text-decoration: none;
+}
+.fest_name{
+    font-weight: 400;
+    font-size: 24px;
+}
+.add_to_title{
+	width: 130px;
+    text-align: center;
+    background-color: #55C3FF;
+    color: #ffff;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+}
