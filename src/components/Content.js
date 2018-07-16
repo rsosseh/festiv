@@ -90,14 +90,15 @@ class Content extends Component{
     tracks: []
   }
 
-  getFestival = async (e) => {
+  getFestival = async (fest) => {
     this.setState({
       tracks:[]
     })
-    e.preventDefault();
+    // e.preventDefault();
     const artist = []
-    fest_name = e.target.elements.festival_name.value;
-    const fest_year = e.target.elements.festival_year.value;
+    fest_name = fest
+    // fest_name = e.target.elements.festival_name.value;
+    const fest_year = 2018
     const eventId = eventList[fest_name][fest_year];
     const apiCall = await fetch(`https://api.songkick.com/api/3.0/events/${eventId}.json?apikey=${apiKey}`);
     const data = await apiCall.json();
