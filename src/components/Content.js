@@ -81,8 +81,10 @@ get_spotify_token()
 
 window.addEventListener("message", receiveMessage, false)
 function receiveMessage(event){
-	user_token = event.data.split('=')[1].split('&')[0]
-	add_playlist(user_token)
+	if(event){
+		user_token = event.data.split('=')[1].split('&')[0]
+		add_playlist(user_token)
+	}
 }
 
 class Content extends Component{
