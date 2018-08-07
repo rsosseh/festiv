@@ -81,7 +81,7 @@ get_spotify_token()
 
 window.addEventListener("message", receiveMessage, false)
 function receiveMessage(event){
-	if(event){
+	if(event.data){
 		user_token = event.data.split('=')[1].split('&')[0]
 		add_playlist(user_token)
 	}
