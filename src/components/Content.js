@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Search from './Search';
-import DayPicker from './DayPicker';
 import PlaylistAdder from './PlaylistAdder';
 import AddPlaylist from './AddPlaylist';
 
@@ -54,36 +53,38 @@ async function get_spotify_token() {
   spotifyApi.setAccessToken(token.token)
 }
 
-async function add_playlist(user_token){
-	spotifyApi.resetAccessToken();
-	spotifyApi.setAccessToken(user_token)
-	let user = await spotifyApi.getMe()
-	console.log(user)
-	let playlist_name = 'festiv - '+ fest_name + ' Playlist'
-	spotifyApi.createPlaylist(user.body.id, playlist_name, { 'public' : false })
-  	.then(function(playlist) {
-  		let tracks_string = []
-  		track_holder.map( (track) => {
-  			tracks_string.push('spotify:track:'+track.id)
-  		})
-  		if(tracks_string.length > 100){
-  			tracks_string = tracks_string.slice(0,100)
-  		}
-  		console.log(tracks_string)
-    	spotifyApi.addTracksToPlaylist(user.body.id, playlist.body.id, tracks_string)
-  	}, function(err) {
-    	console.log('Something went wrong!', err);
-  	});
-}
+// async function add_playlist(user_token){
+// 	spotifyApi.resetAccessToken();
+// 	spotifyApi.setAccessToken(user_token)
+// 	let user = await spotifyApi.getMe()
+// 	console.log(user)
+// 	let playlist_name = 'festiv - '+ fest_name + ' Playlist'
+// 	spotifyApi.createPlaylist(user.body.id, playlist_name, { 'public' : false })
+//   	.then(function(playlist) {
+//   		let tracks_string = []
+//   		track_holder.map( (track) => {
+//   			tracks_string.push('spotify:track:'+track.id)
+//   		})
+//   		if(tracks_string.length > 100){
+//   			tracks_string = tracks_string.slice(0,100)
+//   		}
+//   		console.log(tracks_string)
+//     	spotifyApi.addTracksToPlaylist(user.body.id, playlist.body.id, tracks_string)
+//   	}, function(err) {
+//     	console.log('Something went wrong!', err);
+//   	});
+// }
 
 get_spotify_token()
 
 
-window.addEventListener("message", receiveMessage, false)
-function receiveMessage(event){
-	user_token = event.data.split('=')[1].split('&')[0]
-	add_playlist(user_token)
-}
+// window.addEventListener("message", receiveMessage, false)
+// function receiveMessage(event){
+//   if(event.data){
+// 	 user_token = event.data.split('=')[1].split('&')[0]
+//   }
+// 	add_playlist(user_token)
+// }
 
 class Content extends Component{
   state = {
@@ -91,13 +92,8 @@ class Content extends Component{
   }
 
   getFestival = async (fest) => {
-    this.setState({
-      tracks:[]
-    })
-    // e.preventDefault();
     const artist = []
     fest_name = fest
-    // fest_name = e.target.elements.festival_name.value;
     const fest_year = 2018
     const eventId = eventList[fest_name][fest_year];
     const apiCall = await fetch(`https://api.songkick.com/api/3.0/events/${eventId}.json?apikey=${apiKey}`);
@@ -110,7 +106,6 @@ class Content extends Component{
 
   get_id = async (artist) => {
     let promises = Promise.all(artist.map(async (artist) => {
-
       let art = await spotifyApi.searchArtists(artist)
       if(art.body.artists.items.length != 0){
         return art.body.artists.items[0].id
@@ -132,8 +127,8 @@ class Content extends Component{
       }
     }))
     track_holder  = await promises
+    track_holder = track_holder.filter((idx) => {return idx != undefined})
     show = true
-    console.log(track_holder)
     this.setState({
       tracks:track_holder
     })
@@ -145,9 +140,9 @@ class Content extends Component{
 		return(
 			<div className="App">
 				<Search getFestival={this.getFestival} eventList = {eventList}/>
-            	<PlaylistAdder tracks={this.state.tracks}/>
-            	<AddPlaylist fest_name = {fest_name} show={show} />
-          	</div>
+        <PlaylistAdder tracks={this.state.tracks}/>
+        <AddPlaylist fest_name = {fest_name} show={show} />
+      </div>
 		)
 	}
 }

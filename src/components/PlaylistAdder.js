@@ -8,7 +8,7 @@ class PlaylistAdder extends Component{
 
 
 	render(){
-
+		console.log(this.props.tracks)
 		let tracks = this.props.tracks.map( (track, i) => {
 			var artists_string = track.artists[0].name
 			if(track.artists.length > 1){
@@ -28,7 +28,6 @@ class PlaylistAdder extends Component{
 
 		return(
 			<div className="tracks">
-				<h1 className='fest_title'>{this.props.fest_name}</h1>
 				<div className="track_container">
 					<CSSTransitionGroup transitionName="track_trans" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
 						{tracks}

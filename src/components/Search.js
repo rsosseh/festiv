@@ -1,41 +1,98 @@
 import React, { Component } from 'react';
 
 let festivals_to_search = ''
+let festival_items = []
+let current_list = []
+let selected_idx = 0
+
 
 class Search extends Component{
 
 	searchFestival = (e) => {
-		let ul = document.getElementById("festival_bar")
-		let li = ul.getElementsByTagName('li')
 		let first = true;
+		
 
 		if(document.getElementById('search_bar').value == ""){
-			for(var i = 0; i < li.length; i++){
-				li[i].style.display = "none";
+			for(var i = 0; i < festival_items.length; i++){
+				festival_items[i].style.display = "none";
+				festival_items[i].classList.remove('selected-festival-name')
 			}
 		}
 		else if(e.key == 'Enter'){
+			for(var i = 0; i < festival_items.length; i++){
+				festival_items[i].style.display = "none";
+				festival_items[i].classList.remove('selected-festival-name')
+			}
 			this.props.getFestival(festivals_to_search)
 		}
+		// down arrow
+		else if(e.keyCode == '40'){
+			if(selected_idx != current_list.length - 1){
+				for(var i = 0; i < festival_items.length; i++){
+					festival_items[i].classList.remove('selected-festival-name')
+				}
+				selected_idx += 1
+				current_list[selected_idx].classList.add('selected-festival-name')
+				festivals_to_search = current_list[selected_idx].innerText
+			}
+		}
+		// up arrow
+		else if(e.keyCode == '38'){
+			if(selected_idx != 0){
+				for(var i = 0; i < festival_items.length; i++){
+					festival_items[i].classList.remove('selected-festival-name')
+				}
+				selected_idx -= 1
+				current_list[selected_idx].classList.add('selected-festival-name')
+				festivals_to_search = current_list[selected_idx].innerText
+			}
+		}
 		else{
-			for(var i = 0; i < li.length; i++){
-				if(li[i].innerText.toLowerCase().includes(document.getElementById('search_bar').value.toLowerCase())){
-					li[i].style.display = "list-item";
+			current_list = []
+			selected_idx = 0
+			for(var i = 0; i < festival_items.length; i++){
+				if(festival_items[i].innerText.toLowerCase().includes(document.getElementById('search_bar').value.toLowerCase())){
+					festival_items[i].style.display = "list-item";
+					current_list.push(festival_items[i])
 					if(first){
 						first = false
-						festivals_to_search = li[i].innerText
+						festivals_to_search = festival_items[i].innerText
+						festival_items[i].classList.add('selected-festival-name')
 					}
 				}
 				else{
-					li[i].style.display = "none";
+					festival_items[i].style.display = "none";
 				}
 			}
 		}
 	}
 
+	clickIntiaitedSearch = (fest_name) => {
+		for(var i = 0; i < festival_items.length; i++){
+			festival_items[i].style.display = "none";
+			festival_items[i].classList.remove('selected-festival-name')
+		}
+		this.props.getFestival(fest_name.name)
+	}
+
+
+	componentDidMount(){
+		festival_items = document.getElementById("festival_bar").getElementsByTagName('li')
+		for(var i = 0; i < festival_items.length; i++){
+			festival_items[i].addEventListener("mouseenter", function(){
+				for(var j = 0; j < festival_items.length; j++){
+					festival_items[j].classList.remove('selected-festival-name')
+				}
+				this.classList.add('selected-festival-name')
+				festivals_to_search = this.innerText
+			})
+		}
+	}
+
 	render(){
     	let festivals = Object.keys(this.props.eventList).map(name => {
-    		return <li key={name} value={name}>{name}</li>
+    		let fest_name = {name}
+    		return <li key={name} value={name} onClick={(e) => this.clickIntiaitedSearch(fest_name)}><span>{name}</span></li>
     	})
     	let years = ['2018'].map(year => {
     		return <option key={year} value={year}>{year}</option>
@@ -43,14 +100,18 @@ class Search extends Component{
 
 		return(
 			<div className="SearchWrapper">
-				<h1 className="festivTitle">festiv</h1>
-				<p className="festivDesc">festival playlist maker</p>
-				<input type='text' id="search_bar" onKeyUp={this.searchFestival}/>
-				<ul id="festival_bar">
-					{festivals}
-				</ul>
+				<div className="searchContainer">
+					<div className="textContainer">
+						<h1 className="festivTitle">festiv</h1>
+						<p className="festivDesc">festival playlist maker</p>
+					</div>
+					<input type='text' id="search_bar" onKeyUp={this.searchFestival}/>
+					<ul id="festival_bar">
+						{festivals}
+					</ul>
 
-				<p className="credits">Powered by <b>Songkick</b> and <b>Spotify</b></p>
+					<p className="credits">Powered by <b>Songkick</b> and <b>Spotify</b></p>
+				</div>
 			</div>
 		);
 	}
