@@ -78,7 +78,6 @@ async function get_spotify_token() {
 get_spotify_token()
 
 
-<<<<<<< HEAD
 // window.addEventListener("message", receiveMessage, false)
 // function receiveMessage(event){
 //   if(event.data){
@@ -86,15 +85,6 @@ get_spotify_token()
 //   }
 // 	add_playlist(user_token)
 // }
-=======
-window.addEventListener("message", receiveMessage, false)
-function receiveMessage(event){
-	if(event.data){
-		user_token = event.data.split('=')[1].split('&')[0]
-		add_playlist(user_token)
-	}
-}
->>>>>>> 3d346d7d4f7e9993a640bf432c357a80d41a8c98
 
 class Content extends Component{
   state = {
