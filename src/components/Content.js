@@ -47,48 +47,51 @@ var track_holder = []
 var SpotifyWebApi = require('spotify-web-api-node');
 var spotifyApi = new SpotifyWebApi()
 
-async function get_spotify_token() {
-  let token_json = await fetch("https://spotify-token-getter.herokuapp.com/token")
-  let token = await token_json.json()
-  spotifyApi.setAccessToken(token.token)
-}
-
-async function add_playlist(user_token){
-	spotifyApi.resetAccessToken();
-	spotifyApi.setAccessToken(user_token)
-	let user = await spotifyApi.getMe()
-	console.log(user)
-	let playlist_name = 'festiv - '+ fest_name + ' Playlist'
-	spotifyApi.createPlaylist(user.body.id, playlist_name, { 'public' : false })
-  	.then(function(playlist) {
-  		let tracks_string = []
-  		track_holder.map( (track) => {
-  			tracks_string.push('spotify:track:'+track.id)
-  		})
-  		if(tracks_string.length > 100){
-  			tracks_string = tracks_string.slice(0,100)
-  		}
-    	spotifyApi.addTracksToPlaylist(user.body.id, playlist.body.id, tracks_string)
-  	}, function(err) {
-    	console.log('Something went wrong!', err);
-  	});
-}
-
-get_spotify_token()
-
-
-window.addEventListener("message", receiveMessage, false)
-function receiveMessage(event){
-  if(event.data){
-	 user_token = event.data.split('=')[1].split('&')[0]
-  }
-	add_playlist(user_token)
-
-}
 
 class Content extends Component{
   state = {
-    tracks: []
+    tracks: [],
+    playlist_added: false
+  }
+
+  get_spotify_token = async () => {
+    let token_json = await fetch("https://spotify-token-getter.herokuapp.com/token")
+    let token = await token_json.json()
+    console.log(token.token)
+    spotifyApi.resetAccessToken();
+    spotifyApi.setAccessToken(token.token)
+  }
+
+  receiveMessage = (event) => {
+    console.log('shouldnt trigger')
+    this.setState({
+      playlist_added: true
+    })
+    if(event.data){
+     user_token = event.data.split('=')[1].split('&')[0]
+    }
+    this.add_playlist(user_token)
+  }
+
+  add_playlist = async (user_token) => {
+    spotifyApi.resetAccessToken();
+    spotifyApi.setAccessToken(user_token)
+    let user = await spotifyApi.getMe()
+    console.log(user)
+    let playlist_name = 'festiv - '+ fest_name + ' Playlist'
+    spotifyApi.createPlaylist(user.body.id, playlist_name, { 'public' : false })
+      .then(function(playlist) {
+        let tracks_string = []
+        track_holder.map( (track) => {
+          tracks_string.push('spotify:track:'+track.id)
+        })
+        if(tracks_string.length > 100){
+          tracks_string = tracks_string.slice(0,100)
+        }
+        spotifyApi.addTracksToPlaylist(user.body.id, playlist.body.id, tracks_string)
+      }, function(err) {
+        console.log('Something went wrong!', err);
+      });
   }
 
   getFestival = async (fest) => {
@@ -130,17 +133,25 @@ class Content extends Component{
     track_holder = track_holder.filter((idx) => {return idx != undefined})
     show = true
     this.setState({
-      tracks:track_holder
+      tracks:track_holder,
+      playlist_added: false
     })
   }
 
+  componentWillMount(){
+    this.get_spotify_token
+  }
+
+  componentDidMount(){
+    window.addEventListener("message", this.receiveMessage, false)
+  }
 
 	render(){
 		
 		return(
 			<div className="App">
 				<Search getFestival={this.getFestival} eventList = {eventList}/>
-        <AddPlaylist fest_name = {fest_name} show={show} />
+        <AddPlaylist fest_name = {fest_name} show={show} added={this.state.playlist_added}/>
         <PlaylistAdder tracks={this.state.tracks}/>
       </div>
 		)

@@ -9,7 +9,7 @@ class PlaylistAdder extends Component{
 
 	render(){
 		console.log(this.props.tracks)
-		let tracks = this.props.tracks.map( (track, i) => {
+		let tracks = this.props.tracks.map( (track) => {
 			var artists_string = track.artists[0].name
 			if(track.artists.length > 1){
 				for (var i = 1; i < track.artists.length; i++){
