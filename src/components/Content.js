@@ -41,7 +41,7 @@ const eventList = {
 }
 let fest_name = ''
 let show = false;
-var user_token = ''
+var server_token = ''
 var track_holder = []
 
 var SpotifyWebApi = require('spotify-web-api-node');
@@ -57,20 +57,18 @@ class Content extends Component{
   get_spotify_token = async () => {
     let token_json = await fetch("https://spotify-token-getter.herokuapp.com/token")
     let token = await token_json.json()
-    console.log(token.token)
+    server_token = token.token
     spotifyApi.resetAccessToken();
-    spotifyApi.setAccessToken(token.token)
+    spotifyApi.setAccessToken(server_token)
   }
 
   receiveMessage = (event) => {
-    console.log('shouldnt trigger')
-    this.setState({
-      playlist_added: true
-    })
     if(event.data){
-     user_token = event.data.split('=')[1].split('&')[0]
+      this.setState({
+        playlist_added: true
+     })
+     this.add_playlist(event.data.split('=')[1].split('&')[0])
     }
-    this.add_playlist(user_token)
   }
 
   add_playlist = async (user_token) => {
@@ -89,6 +87,8 @@ class Content extends Component{
           tracks_string = tracks_string.slice(0,100)
         }
         spotifyApi.addTracksToPlaylist(user.body.id, playlist.body.id, tracks_string)
+        spotifyApi.resetAccessToken()
+        spotifyApi.setAccessToken(server_token)
       }, function(err) {
         console.log('Something went wrong!', err);
       });
@@ -139,7 +139,7 @@ class Content extends Component{
   }
 
   componentWillMount(){
-    this.get_spotify_token
+    this.get_spotify_token()
   }
 
   componentDidMount(){

@@ -70,14 +70,15 @@ html,body{
     outline: none;
     border: none;
     border-bottom: 1px solid #000;
+    border-radius: 0;
     padding: 0 1%;
     font-size: 18px;
 }
 .credits{
 	position: absolute;
     bottom: 0;
-    font-size: 13px;
-    color: #fff;
+    font-size: 8px;
+    color: #000;
     left: 10px;
 }
 .tracks{
