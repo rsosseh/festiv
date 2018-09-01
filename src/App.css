@@ -16,6 +16,7 @@ html,body{
 .festivDesc{
 	margin-top: 0;
 	font-size: 13px;
+    color: #5b33ff;
 }
 .SearchWrapper{
 	border-bottom: 2px solid;
@@ -88,6 +89,7 @@ html,body{
 }
 .track_container{
 	padding: 2%;
+    background-color: #fff;
 }
 .track_item{
 	position: relative;
@@ -151,9 +153,6 @@ html,body{
     display: inline-block;
     width: 31%;
     padding: 2%;
-    position: absolute;
-    left: 0;
-    bottom: 0;
     background-color: #000;
 }
 .add_to_tab a{
@@ -185,4 +184,24 @@ html,body{
 	background-color: #fff;
 	color: #000;
 	transition: .5s ease;
+}
+
+@media only screen and (max-width: 425px){
+    .add_to_tab{
+        height: initial;
+        width: 96%;
+        text-align: center;
+    }
+    .fest_name{
+        margin: auto;
+    }
+    .add_to_title{
+        margin: auto;
+    }
+    .tracks{
+        width: 100%;
+    }
+    .credits{
+        display: none;
+    }
 }
