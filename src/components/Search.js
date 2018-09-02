@@ -105,7 +105,7 @@ class Search extends Component{
 						<h1 className="festivTitle">festiv</h1>
 						<p className="festivDesc">festival playlist maker</p>
 					</div>
-					<input type='text' id="search_bar" onKeyUp={this.searchFestival}/>
+					<input type='text' id="search_bar" placeholder="Search..." onKeyUp={this.searchFestival}/>
 					<ul id="festival_bar">
 						{festivals}
 					</ul>

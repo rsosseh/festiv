@@ -74,6 +74,10 @@ html,body{
     padding: 0 1%;
     font-size: 18px;
 }
+::placeholder {
+    color: #cacaca;
+    opacity: 1;
+}
 .credits{
 	position: absolute;
     bottom: 0;
@@ -193,6 +197,9 @@ html,body{
 }
 
 @media only screen and (max-width: 425px){
+    .searchContainer{
+        width: 70%;
+    }
     .add_to_tab{
         height: initial;
         width: 96%;
