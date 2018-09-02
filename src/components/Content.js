@@ -80,8 +80,8 @@ class Content extends Component{
     spotifyApi.createPlaylist(user.body.id, playlist_name, { 'public' : false })
       .then(function(playlist) {
         let tracks_string = []
-        track_holder.map( (track) => {
-          tracks_string.push('spotify:track:'+track.id)
+        tracks_string = track_holder.map( (track) => {
+          return 'spotify:track:'+track.id
         })
         if(tracks_string.length > 100){
           tracks_string = tracks_string.slice(0,100)
@@ -110,7 +110,7 @@ class Content extends Component{
   get_id = async (artist) => {
     let promises = Promise.all(artist.map(async (artist) => {
       let art = await spotifyApi.searchArtists(artist)
-      if(art.body.artists.items.length != 0){
+      if(art.body.artists.items.length !== 0){
         return art.body.artists.items[0].id
       }
       else{
@@ -118,19 +118,19 @@ class Content extends Component{
       }
     }))
     let i = await promises
-    let cleaned_i = i.filter((idx) => {return idx != "not found"})
+    let cleaned_i = i.filter((idx) => {return idx !== "not found"})
     this.get_tracks(cleaned_i)
   }
 
   get_tracks = async (ids) => {
     let promises = Promise.all(ids.map(async (id) => {
-      if(id != "not found"){
+      if(id !== "not found"){
         let track = await spotifyApi.getArtistTopTracks(id, 'US')
         return track.body.tracks[0]
       }
     }))
     track_holder  = await promises
-    track_holder = track_holder.filter((idx) => {return idx != undefined})
+    track_holder = track_holder.filter((idx) => {return idx !== undefined})
     show = true
     this.setState({
       tracks:track_holder,

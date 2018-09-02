@@ -12,24 +12,24 @@ class Search extends Component{
 		let first = true;
 		
 
-		if(document.getElementById('search_bar').value == ""){
+		if(document.getElementById('search_bar').value === ""){
 			for(var i = 0; i < festival_items.length; i++){
 				festival_items[i].style.display = "none";
 				festival_items[i].classList.remove('selected-festival-name')
 			}
 		}
-		else if(e.key == 'Enter'){
-			for(var i = 0; i < festival_items.length; i++){
-				festival_items[i].style.display = "none";
-				festival_items[i].classList.remove('selected-festival-name')
+		else if(e.key === 'Enter'){
+			for(var j = 0; j < festival_items.length; j++){
+				festival_items[j].style.display = "none";
+				festival_items[j].classList.remove('selected-festival-name')
 			}
 			this.props.getFestival(festivals_to_search)
 		}
 		// down arrow
-		else if(e.keyCode == '40'){
-			if(selected_idx != current_list.length - 1){
-				for(var i = 0; i < festival_items.length; i++){
-					festival_items[i].classList.remove('selected-festival-name')
+		else if(e.keyCode === 40){
+			if(selected_idx !== current_list.length - 1){
+				for(var k = 0; k < festival_items.length; k++){
+					festival_items[k].classList.remove('selected-festival-name')
 				}
 				selected_idx += 1
 				current_list[selected_idx].classList.add('selected-festival-name')
@@ -37,10 +37,10 @@ class Search extends Component{
 			}
 		}
 		// up arrow
-		else if(e.keyCode == '38'){
-			if(selected_idx != 0){
-				for(var i = 0; i < festival_items.length; i++){
-					festival_items[i].classList.remove('selected-festival-name')
+		else if(e.keyCode === 38){
+			if(selected_idx !== 0){
+				for(var l = 0; l < festival_items.length; l++){
+					festival_items[l].classList.remove('selected-festival-name')
 				}
 				selected_idx -= 1
 				current_list[selected_idx].classList.add('selected-festival-name')
@@ -50,18 +50,18 @@ class Search extends Component{
 		else{
 			current_list = []
 			selected_idx = 0
-			for(var i = 0; i < festival_items.length; i++){
-				if(festival_items[i].innerText.toLowerCase().includes(document.getElementById('search_bar').value.toLowerCase())){
-					festival_items[i].style.display = "list-item";
-					current_list.push(festival_items[i])
+			for(var o = 0; o < festival_items.length; o++){
+				if(festival_items[o].innerText.toLowerCase().includes(document.getElementById('search_bar').value.toLowerCase())){
+					festival_items[o].style.display = "list-item";
+					current_list.push(festival_items[o])
 					if(first){
 						first = false
-						festivals_to_search = festival_items[i].innerText
-						festival_items[i].classList.add('selected-festival-name')
+						festivals_to_search = festival_items[o].innerText
+						festival_items[o].classList.add('selected-festival-name')
 					}
 				}
 				else{
-					festival_items[i].style.display = "none";
+					festival_items[o].style.display = "none";
 				}
 			}
 		}
@@ -94,9 +94,9 @@ class Search extends Component{
     		let fest_name = {name}
     		return <li key={name} value={name} onClick={(e) => this.clickIntiaitedSearch(fest_name)}><span>{name}</span></li>
     	})
-    	let years = ['2018'].map(year => {
-    		return <option key={year} value={year}>{year}</option>
-    	})
+    	// let years = ['2018'].map(year => {
+    	// 	return <option key={year} value={year}>{year}</option>
+    	// })
 
 		return(
 			<div className="SearchWrapper">

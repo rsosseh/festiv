@@ -8,7 +8,6 @@ class PlaylistAdder extends Component{
 
 
 	render(){
-		console.log(this.props.tracks)
 		let tracks = this.props.tracks.map( (track) => {
 			var artists_string = track.artists[0].name
 			if(track.artists.length > 1){
@@ -17,8 +16,8 @@ class PlaylistAdder extends Component{
 				}
 			}
 
-			return <div className={item_classes.join(' ')} style={{"transitionDelay": `${ i * .05 }s` }}>
-					<a href={track.external_urls.spotify}><img src={track.album.images[1].url} /></a>
+			return <div key={track.name} className={item_classes.join(' ')} style={{"transitionDelay": `${ i * .05 }s` }}>
+					<a href={track.external_urls.spotify}><img alt={track.name} src={track.album.images[1].url} /></a>
 					<div className="track_info">
 						<p>{track.name}</p>
 						<p>{artists_string}</p>
