@@ -44,10 +44,6 @@ let show = false;
 var server_token = ''
 var track_holder = []
 
-var SpotifyWebApi = require('spotify-web-api-node');
-var spotifyApi = new SpotifyWebApi()
-
-
 class Content extends Component{
   state = {
     tracks: [],
@@ -58,8 +54,6 @@ class Content extends Component{
     let token_json = await fetch("https://spotify-token-getter.herokuapp.com/token")
     let token = await token_json.json()
     server_token = token.token
-    spotifyApi.resetAccessToken();
-    spotifyApi.setAccessToken(server_token)
   }
 
   receiveMessage = (event) => {
@@ -72,26 +66,43 @@ class Content extends Component{
   }
 
   add_playlist = async (user_token) => {
-    spotifyApi.resetAccessToken();
-    spotifyApi.setAccessToken(user_token)
-    let user = await spotifyApi.getMe()
-    console.log(user)
+    let q = await fetch("https://api.spotify.com/v1/me", {
+      method: "GET",
+      headers: {
+        "Authorization" : "Bearer " + user_token
+      }
+    })
+    let user = await q.json()
     let playlist_name = 'festiv - '+ fest_name + ' Playlist'
-    spotifyApi.createPlaylist(user.body.id, playlist_name, { 'public' : false })
-      .then(function(playlist) {
+    let e = "https://api.spotify.com/v1/users/"+ user.id +"/playlists"
+
+    fetch(e, {
+      method: "POST",
+      headers: {
+        "Authorization" : "Bearer " + user_token,
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify({name: playlist_name, public:false}),
+      mode: "cors"
+    }).then( async (resp) => {
+      if(resp.ok){
+        let playlist = await resp.json()
+
         let tracks_string = []
         tracks_string = track_holder.map( (track) => {
-          return 'spotify:track:'+track.id
+          return 'spotify%3Atrack%3A'+track.id
         })
-        if(tracks_string.length > 100){
-          tracks_string = tracks_string.slice(0,100)
-        }
-        spotifyApi.addTracksToPlaylist(user.body.id, playlist.body.id, tracks_string)
-        spotifyApi.resetAccessToken()
-        spotifyApi.setAccessToken(server_token)
-      }, function(err) {
-        console.log('Something went wrong!', err);
-      });
+
+        let s = "https://api.spotify.com/v1/playlists/" + playlist.id + "/tracks?uris=" + tracks_string.join(",")
+        fetch(s, {
+          method:"POST",
+          headers: {
+            "Authorization" : "Bearer " + user_token,
+            "Content-Type" : "application/json"
+          }
+        })
+      }
+    })
   }
 
   getFestival = async (fest) => {
@@ -104,30 +115,45 @@ class Content extends Component{
     data.resultsPage.results.event.performance.map(performance => {
       return artist.push(performance.displayName)
     });
-    this.get_id(artist)
+    this.get_id(artist.splice(0,100))
   }
 
   get_id = async (artist) => {
     let promises = Promise.all(artist.map(async (artist) => {
-      let art = await spotifyApi.searchArtists(artist)
-      if(art.body.artists.items.length !== 0){
-        return art.body.artists.items[0].id
+      artist = artist.split(" ").join("%20")
+      var q = "https://api.spotify.com/v1/search?q=" + artist + "&type=artist"
+      let c = await fetch(q, {
+        method: "GET",
+        headers: {
+          "Authorization" : "Bearer " + server_token 
+        }
+      })
+      return await c.json()
+    }))
+    let i = await promises
+    let t = i.map((res) => {
+      if(res.artists.items.length !== 0){
+        return res.artists.items[0].id
       }
       else{
         return "not found"
       }
-    }))
-    let i = await promises
-    let cleaned_i = i.filter((idx) => {return idx !== "not found"})
-    this.get_tracks(cleaned_i)
+    })
+    let cleaned_t = t.filter((idx) => {return idx !== "not found"})
+    this.get_tracks(cleaned_t)
   }
 
   get_tracks = async (ids) => {
     let promises = Promise.all(ids.map(async (id) => {
-      if(id !== "not found"){
-        let track = await spotifyApi.getArtistTopTracks(id, 'US')
-        return track.body.tracks[0]
-      }
+      let q = "https://api.spotify.com/v1/artists/"+ id +"/top-tracks?country=US"
+      let c = await fetch(q, {
+        method: "GET",
+        headers:{
+          "Authorization" : "Bearer " + server_token
+        }
+      })
+      let track = await c.json()
+      return track.tracks[0]
     }))
     track_holder  = await promises
     track_holder = track_holder.filter((idx) => {return idx !== undefined})
