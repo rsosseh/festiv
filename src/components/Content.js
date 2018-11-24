@@ -1,7 +1,14 @@
+// TO-DO:
+
+// loading gif
+// UI weirdness, especially in mobile
+
+
 import React, { Component } from 'react';
 import Search from './Search';
 import PlaylistAdder from './PlaylistAdder';
 import AddPlaylist from './AddPlaylist';
+import Loader from './Loader';
 
 const apiKey = "2LHZxfHghd8t0pPt";
 const eventList = {
@@ -47,7 +54,8 @@ var track_holder = []
 class Content extends Component{
   state = {
     tracks: [],
-    playlist_added: false
+    playlist_added: false,
+    is_loading: false
   }
 
   get_spotify_token = async () => {
@@ -106,6 +114,7 @@ class Content extends Component{
   }
 
   getFestival = async (fest) => {
+    this.setState({is_loading:true})
     const artist = []
     fest_name = fest
     const fest_year = 2018
@@ -160,7 +169,8 @@ class Content extends Component{
     show = true
     this.setState({
       tracks:track_holder,
-      playlist_added: false
+      playlist_added: false,
+      is_loading: false
     })
   }
 
@@ -179,6 +189,7 @@ class Content extends Component{
 				<Search getFestival={this.getFestival} eventList = {eventList}/>
         <AddPlaylist fest_name = {fest_name} show={show} added={this.state.playlist_added}/>
         <PlaylistAdder tracks={this.state.tracks}/>
+        <Loader show={this.state.is_loading}/>
       </div>
 		)
 	}
