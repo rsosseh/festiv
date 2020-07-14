@@ -9,7 +9,7 @@ class FestivSidebar extends React.Component{
         const { festivalName, playlistAdded } = this.props;
 
 		return(
-            <div className="festiv__sidebar">
+            <div className={`festiv__sidebar ${festivalName ? 'show-sidebar' : ''}`}>
                 <h1 className="festiv__festival-name">{festivalName}</h1>
                 <a onClick={playlistAdded ? null : this.callSpotify}>
                     <h1 className={`festiv__add-playlist-button ${playlistAdded ? 'added': ''}`}>{playlistAdded ? 'Added' : 'Add Playlist'}</h1>
