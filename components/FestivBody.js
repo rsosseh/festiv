@@ -39,7 +39,7 @@ class FestivBody extends React.Component{
       this.setState({
         playlistAdded: true
      })
-     this.addPlaylist(event.data.split('=')[1].split('&')[0])
+     this.addPlaylist(event.data)
     }
   }
   addPlaylist = async (userToken) => {

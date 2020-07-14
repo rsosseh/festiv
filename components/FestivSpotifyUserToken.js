@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 class FestivSpotifyUserToken extends Component{
     componentDidMount(){
         if(window.opener){
-            window.opener.postMessage(window.location.hash.substring(1), "*")
+            window.opener.postMessage(window.location.href.split('?code=')[1], "*")
             window.close()
         }
     }
