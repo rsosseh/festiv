@@ -151,14 +151,14 @@ class FestivBody extends React.Component{
     this.getSpotifyToken();
   }
 	render(){
-    const { festivalName } = this.state;
+    const { festivalName, tracks, playlistAdded, isLoading } = this.state;
 		
 		return(
 			<div className="App">
         <FestivSearchbar getFestivalArtists={this.getFestivalArtists} eventList={eventList}/>
-        <FestivSidebar festivalName={festivalName} playlistAdded={this.state.playlistAdded}/>
-        <FestivTrackPanel tracks={this.state.tracks}/>
-        <FestivLoader isLoading={this.state.isLoading}/>
+        <FestivSidebar festivalName={festivalName} playlistAdded={playlistAdded}/>
+        <FestivTrackPanel tracks={tracks}/>
+        <FestivLoader isLoading={isLoading}/>
       </div>
 		)
 	}
