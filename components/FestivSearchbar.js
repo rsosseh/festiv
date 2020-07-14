@@ -6,7 +6,7 @@ class FestivSearchbar extends React.Component{
         const { getFestivalArtists } = this.props;
         let first = true;
         //hide search contentts
-		if(document.getElementById('search_bar').value === ""){
+		if(document.getElementById('js__festiv__search-bar').value === ""){
 			for(var i = 0; i < festival_items.length; i++){
 				festival_items[i].style.display = "none";
 				festival_items[i].classList.remove('selected-festival-name')
@@ -47,7 +47,7 @@ class FestivSearchbar extends React.Component{
 			current_list = []
 			selected_idx = 0
 			for(var o = 0; o < festival_items.length; o++){
-				if(festival_items[o].innerText.toLowerCase().includes(document.getElementById('search_bar').value.toLowerCase())){
+				if(festival_items[o].innerText.toLowerCase().includes(document.getElementById('js__festiv__search-bar').value.toLowerCase())){
 					festival_items[o].style.display = "list-item";
 					current_list.push(festival_items[o])
 					if(first){
@@ -71,7 +71,7 @@ class FestivSearchbar extends React.Component{
 		getFestivalArtists(fest_name.name)
 	}
 	componentDidMount(){
-		festival_items = document.getElementById("festival_bar").getElementsByTagName('li')
+		festival_items = document.getElementById("js__festiv__festival-bar").getElementsByTagName('li')
 		for(var i = 0; i < festival_items.length; i++){
 			festival_items[i].addEventListener("mouseenter", function(){
 				for(var j = 0; j < festival_items.length; j++){
@@ -89,18 +89,18 @@ class FestivSearchbar extends React.Component{
     		return <li key={name} value={name} onClick={(e) => this.clickIntiaitedSearch(fest_name)}><span>{name}</span></li>
     	})
         return(
-			<div className="SearchWrapper">
-				<div className="searchContainer">
-					<div className="textContainer">
-						<h1 className="festivTitle">festiv</h1>
-						<p className="festivDesc">festival playlist maker</p>
+			<div className="festiv__search-wrapper">
+				<div className="festiv__search_container">
+					<div className="festiv__hero">
+						<h1 className="festiv__title">festiv</h1>
+						<p className="festiv__desc">festival playlist maker</p>
 					</div>
-					<input type='text' id="search_bar" placeholder="Search..." onKeyUp={this.searchFestival}/>
-					<ul id="festival_bar">
+					<input type='text' className="festiv__search-bar" id="js__festiv__search-bar" placeholder="Search..." onKeyUp={this.searchFestival}/>
+					<ul className="festiv__festival-bar" id="js__festiv__festival-bar">
 						{festivals}
 					</ul>
 
-					<p className="credits">Powered by <b>Songkick</b> and <b>Spotify</b></p>
+					<p className="festiv__credits">Powered by <b>Songkick</b> and <b>Spotify</b></p>
 				</div>
 			</div>
 		);

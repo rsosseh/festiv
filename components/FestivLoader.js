@@ -6,7 +6,7 @@ class FestivLoader extends React.Component{
 		return(
 			<div>	
 				{isLoading && 
-                    <div id="loader">
+                    <div id="festiv__loader">
                         <img src="/Loading_icon.gif" />
                     </div>
                 }

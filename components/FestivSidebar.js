@@ -10,13 +10,10 @@ class FestivSidebar extends React.Component{
 
 		return(
             <div className="festiv__sidebar">
-                <div className="add_to_tab">
-                    <h1 className="fest_name">{festivalName}</h1>
-                    <a onClick={this.callSpotify}>
-                        <h1 className="add_to_title">Add Playlist</h1>
-                    </a>
-                </div>
-
+                <h1 className="festiv__festival-name">{festivalName}</h1>
+                <a onClick={this.callSpotify}>
+                    <h1 className="festiv__add-playlist-button">Add Playlist</h1>
+                </a>
             </div>
 		)
 	}

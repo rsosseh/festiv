@@ -9,16 +9,16 @@ html,body{
     width: 0px;  /* remove scrollbar space */
     background: transparent;  /* optional: just make scrollbar invisible */
 }
-.festivTitle{
+.festiv__title{
 	font-family: 'Jua', sans-serif;
 	margin: 0;
 }
-.festivDesc{
+.festiv__desc{
 	margin-top: 0;
 	font-size: 13px;
     color: #5b33ff;
 }
-.SearchWrapper{
+.festiv__search-wrapper{
 	border-bottom: 2px solid;
     width: 96%;
     padding: 2%;
@@ -28,7 +28,7 @@ html,body{
     position: relative;
     z-index: 1;
 }
-.SearchWrapper select:nth-child(1){
+.festiv__search-wrapper select:nth-child(1){
 	height: 28px;
     background-color: #55C3FF;
     color: #ffffff;
@@ -37,11 +37,11 @@ html,body{
     display: block;
     width: 100%;
 }
-.searchContainer{
+.festiv__search_container{
 	width: 40%;
 	margin: auto;
 }
-#festival_bar{
+.festiv__festival-bar{
 	position: absolute;
 	overflow: hidden;
     padding-left: 0;
@@ -51,20 +51,20 @@ html,body{
     min-width: 250px;
     z-index: 1;
 }
-#festival_bar li{
+.festiv__festival-bar li{
 	display: none;
     background-color: #ffffff;
     color: #ffffff;
     padding: 4% 6%;
     cursor: pointer;
 }
-#festival_bar li span{
+.festiv__festival-bar li span{
 	color: #000000;
 }
 .selected-festival-name{
 	background-color: #efefef !important;
 }
-#search_bar{
+.festiv__search-bar{
 	width: 98%;
     height: 30px;
     outline: none;
@@ -78,92 +78,61 @@ html,body{
     color: #cacaca;
     opacity: 1;
 }
-.credits{
+.festiv__credits{
 	position: absolute;
     bottom: 0;
     font-size: 8px;
     color: #000;
     left: 10px;
 }
-.tracks{
+.festiv__tracks{
 	display: inline-block;
 	height: 80vh;
 	overflow-y: auto;
-	float: right;
     width: 65%;
-}
-.track_container{
-	padding: 2%;
+	padding: 1%;
     background-color: #fff;
 }
-.track_item{
+.festiv__track-item{
 	position: relative;
 	margin: 1%;
 	transition: .3s ease;
 	border-bottom: 1px solid #c5c2c2;
 }
-.track_trans-enter{
-	opacity: 0;
-}
-.track_trans-enter.track_trans-enter-active{
-	opacity: 1;
-	transition: opacity .4s ease-in;
-}
-.track_trans-leave{
-	opacity: 1;
-}
-.track_trans-leave.track_trans-leave-active{
-	opacity: 0;
-	transition: opacity .3s ease-in;
-}
-.slide_in-enter{
-	transform: translateX(-100%);
-}
-.slide_in-enter.slide_in-enter-active{
-	transform: translateX(0%);
-	transition: transform .4s ease-in;
-}
-.slide_in-leave{
-	transform: translateX(0%);;
-}
-.slide_in-leave.slide_in-leave-active{
-	transform: translateX(-100%);
-	transition: transform .3s ease-in;
-}
-
-.track_item img{
+.festiv__track-item img{
 	display: inline-block;
 	width: 75px;
     border-radius: 5px;
 }
-.track_info{
+.festiv__track_info{
 	display: inline-block;
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
 	padding: 2%;
 }
-.track_info p{
+.festiv__track_info p{
 	margin: 0;
 	font-size: 13px;
 }
-.track_info p:nth-child(1){
+.festiv__track_info p:nth-child(1){
 	font-weight: 400;
 }
-.track_info p:nth-child(2){
+.festiv__track_info p:nth-child(2){
 	font-weight: 700
 }
-.add_to_tab{
+.festiv__sidebar{
 	height: 80vh;
     display: inline-block;
-    width: 31%;
+    width: 28%;
+    vertical-align: top;
     padding: 2%;
     background-color: #000;
 }
-.add_to_tab a{
+.festiv__sidebar a{
 	text-decoration: none;
 }
-.fest_name{
+.festiv__festival-name{
     font-weight: 600;
     font-size: 30px;
     color: #ffffff;
@@ -173,7 +142,7 @@ html,body{
     color: #000000;
     padding: 2%;
 }
-.add_to_title{
+.festiv__add-playlist-button{
 	width: 130px;
     background-color: #000;
     color: #fff;
@@ -185,7 +154,7 @@ html,body{
     margin: 0;
     transition: .5s ease;
 }
-.add_to_title:hover{
+.festiv__add-playlist-button:hover{
 	background-color: #fff;
 	color: #000;
 	transition: .5s ease;
@@ -195,7 +164,7 @@ html,body{
     background-color: #fff;
     color: #000;
 }
-#loader img{
+#festiv__loader img{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -205,27 +174,27 @@ html,body{
 }
 
 @media only screen and (max-width: 425px){
-    .searchContainer{
+    .festiv__search_container{
         width: 70%;
     }
-    .add_to_tab{
+    .festiv__sidebar{
         height: initial;
         width: 96%;
         text-align: center;
     }
-    .fest_name{
+    .festiv__festival-name{
         margin: auto;
     }
-    .add_to_title{
+    .festiv__add-playlist-button{
         margin: auto;
     }
-    .tracks{
+    .festiv__tracks{
         width: 100%;
     }
-    .credits{
+    .festiv__credits{
         display: none;
     }
-    #loader img{
+    #festiv__loader img{
         width: 30%;
     }
 }

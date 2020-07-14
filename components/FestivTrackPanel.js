@@ -12,9 +12,9 @@ class FestivTrackPanel extends React.Component{
 			}
 
 			return(
-                <div key={track.name} className="track_item" style={{"transitionDelay": `${ i * .05 }s` }}>
+                <div key={track.name} className="festiv__track-item">
 					<a href={track.external_urls.spotify}><img alt={track.name} src={track.album.images[1].url} /></a>
-					<div className="track_info">
+					<div className="festiv__track_info">
 						<p>{track.name}</p>
 						<p>{artists_string}</p>
 					</div>
@@ -23,10 +23,8 @@ class FestivTrackPanel extends React.Component{
 		})
 
 		return(
-			<div className="tracks">
-				<div className="track_container">
-                    {trackElements}
-				</div>
+			<div className="festiv__tracks">
+				{trackElements}
 			</div>
 		);
 	}

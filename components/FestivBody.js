@@ -90,7 +90,7 @@ class FestivBody extends React.Component{
     this.setState({spotifyToken: token.token});
   }
   getFestivalArtists = async (festivalName) => {
-    this.setState({isLoading:true})
+    this.setState({isLoading:true, festivalName: festivalName})
     const artists = [];
     const eventDataRaw = await fetch(`https://api.songkick.com/api/3.0/events/${eventList[festivalName]}.json?apikey=${apiKey}`);
     const eventData = await eventDataRaw.json();
